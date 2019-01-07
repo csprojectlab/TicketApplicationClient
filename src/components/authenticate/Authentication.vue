@@ -104,7 +104,7 @@ export default {
                this.showMessage('PROVIDE COMPLETE CREDENTIALS');
                 return;
             }
-            await Authentication.authenticate(this, this.credentials, '/')            
+            await Authentication.authenticate(this, this.credentials, '/dashboard')            
         },
 
         async submitRegistration () {
@@ -131,4 +131,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.button-1:hover {
+  color: green 
+}
+</style>
 

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Authentication from '@/components/authenticate/Authentication'
+import Dashboard from '@/components/dashboard/Dashboard'
+import AddTicket from '@/components/ticket/AddTicket'
 import HelloWorld from '@/components/HelloWorld'
 import * as Auth from '@/components/authenticate'
 
@@ -19,6 +21,17 @@ const router = new Router({
       path: '/login',
       name: 'Authentication',
       component: Authentication
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: { requiredAuth: true }
+    },
+    {
+      path: '/addticket',
+      name: 'AddTicket',
+      component: AddTicket
     }
   ]
 })

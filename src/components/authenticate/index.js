@@ -43,7 +43,12 @@ export default {
         context.$cookie.delete('user_name')
         this.user.authenticated = false;
         this.user.admin = false;
-        if(redirect)    context.$router.push(redirect)
+        if(redirect) {
+            context.showMessage ("REDIRECTING TO THE LOGIN PAGE...");
+            setTimeout (() => {
+                context.$router.push('/login')
+            }, 2000);
+        }
     },
 
     /**

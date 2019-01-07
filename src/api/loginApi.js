@@ -1,10 +1,10 @@
-import {API} from './index'
+import API from '@/api'
 import axios from 'axios'
 
 export default {
-    async authenticate (credentials) {
+    authenticate (credentials) {        
         if(!credentials.username || !credentials.password) 
             return {message: "CREDENTIALS NOT COMPLETE"}       
-        return axios.post(`${API}login`)        
+        return axios.post(`${API}login`, credentials)        
     }
 }

@@ -87,6 +87,7 @@
     </v-app>
 </template>
 <script>
+import Authentication from '@/components/authenticate'
 export default {
     data () {
         return {
@@ -98,28 +99,32 @@ export default {
         }
     },
     methods: {
-        submitAuthentication () {
+        async submitAuthentication () {
             if(this.credentials.username == '' || this.credentials.password == '') {
-                this.snackbar = true;
-                this.message = 'PROVIDE COMPLETE CREDENTIALS'
+               this.showMessage('PROVIDE COMPLETE CREDENTIALS');
                 return;
             }
-            
+            await Authentication.authenticate(this, this.credentials, '/')            
         },
 
-        submitRegistration () {
+        async submitRegistration () {
             if(this.regData.username == '' || this.regData.password == '' || this.regData.email == '') {
-                this.snackbar = true;
-                this.message = "PROVIDE COMPLETE REGISTRATION CREDENTIALS."
+               this.showMessage("PROVIDE COMPLETE REGISTRATION CREDENTIALS.");
                 return;
             }
             let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if(!re.test(this.regData.email)) {
-                this.snackbar = true;
-                this.message = "PROVIDED EMAIL IS NOT VALID."
+               this.showMessage("PROVIDED EMAIL IS NOT VALID.");
                 return;
             }
-            console.log(this.regData.username, this.regData.password, this.regData.email)
+            await Authentication.register(this, this.regData, '/login')
+            this.registerModel = false;
+            this.showMessage("REGISTRATION SUCCESSFULL. YOU CAN LOGIN NOW.")
+        },
+
+        showMessage (errorMessage) {
+            this.snackbar = true;
+            this.message = errorMessage
         }
 
 

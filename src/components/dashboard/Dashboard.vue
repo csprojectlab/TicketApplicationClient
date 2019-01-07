@@ -28,7 +28,7 @@
                         <v-divider class="my-3"></v-divider>
                         <div class="title mb-3" v-if="!isAdmin"><strong>CHOOSE OPTION</strong></div>
                         <div>
-                            <v-btn dark color="purple darken-3" @click="$router.push('/')" v-if="!isAdmin">
+                            <v-btn dark color="purple darken-3" @click="$router.push('/addticket')" v-if="!isAdmin">
                              <v-icon left>add_circle_outline</v-icon>Add Ticket</v-btn>
                             <v-btn dark color="green darken-3" @click="$router.push('/')">
                                 <v-icon left>view_headline</v-icon> View Tickets</v-btn>

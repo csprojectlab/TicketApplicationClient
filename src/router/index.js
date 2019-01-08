@@ -4,6 +4,7 @@ import Authentication from '@/components/authenticate/Authentication'
 import Dashboard from '@/components/dashboard/Dashboard'
 import AddTicket from '@/components/ticket/AddTicket'
 import ViewTicket from '@/components/ticket/ViewTicket'
+import DetailTicket from '@/components/ticket/TicketDetail'
 import HelloWorld from '@/components/HelloWorld'
 import * as Auth from '@/components/authenticate'
 
@@ -39,7 +40,13 @@ const router = new Router({
       path: '/viewticket',
       name: 'ViewTicket',
       component: ViewTicket,
-      meta: { requiredAuth: false}
+      meta: { requiredAuth: true}
+    },
+    {
+      path: '/ticketdetail',
+      name: 'DetailTicket',
+      component: DetailTicket,
+      meta: { requiredAuth: false }
     }
   ]
 })

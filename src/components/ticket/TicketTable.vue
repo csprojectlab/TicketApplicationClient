@@ -12,7 +12,8 @@
                                     </template>
                                     <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                                     <template slot="items" slot-scope="props">
-                                        <td class="text-xs-left">
+                                        <tr>
+                                        <td class="text-xs-left"  @click="expandTicket(props.item.id)">
                                             <v-chip :selected="props.item.id" class="v-chip--select-multi ">
                                                 <v-avatar class="accent white--text">
                                                     {{ props.item.id.toString().slice(0, 1).toUpperCase() }}
@@ -20,7 +21,7 @@
                                                 {{ props.item.id }}
                                             </v-chip>
                                         </td>
-                                        <td class="text-xs-left">
+                                        <td class="text-xs-left"  @click="expandTicket(props.item.id)">
                                             <v-chip :selected="props.item.type" class="v-chip--select-multi ">
                                                 <v-avatar class="accent white--text">
                                                     {{ props.item.type.slice(0, 1).toUpperCase() }}
@@ -28,7 +29,7 @@
                                                 {{ props.item.type }}
                                             </v-chip>
                                         </td>
-                                        <td class="text-xs-left">
+                                        <td class="text-xs-left"  @click="expandTicket(props.item.id)">
                                             <v-chip :selected="props.item.priority" class="v-chip--select-multi ">
                                                 <v-avatar class="accent white--text">
                                                     {{ props.item.priority.slice(0, 1).toUpperCase() }}
@@ -36,7 +37,7 @@
                                                 {{ props.item.priority }}
                                             </v-chip>
                                         </td>
-                                        <td class="text-xs-left">
+                                        <td class="text-xs-left"  @click="expandTicket(props.item.id)">
                                             <v-chip :selected="props.item.status" class="v-chip--select-multi ">
                                                 <v-avatar class="accent white--text">
                                                     {{ props.item.status.slice(0, 1).toUpperCase() }}
@@ -44,13 +45,14 @@
                                                 {{ props.item.status }}
                                             </v-chip>
                                         </td>
-                                        <td class="text-xs-left">{{ props.item.message }}</td>
-                                        <td class="text-xs-left">{{ props.item.ownedBy }}</td>
+                                        <td class="text-xs-left"  @click="expandTicket(props.item.id)">{{ props.item.message }}</td>
+                                        <td class="text-xs-left"  @click="expandTicket(props.item.id)">{{ props.item.ownedBy }}</td>
                                         <td class="text-xs-left" v-if="isAdmin">
-                                            <v-btn dark color="red" v-if="props.item.status!='ASSIGNED'" @click="assignTicket()">
+                                            <v-btn round dark color="red" v-if="props.item.status!='ASSIGNED'" @click="assignTicket(props.item.id)">
                                                 <v-icon left>label_important</v-icon> Assign</v-btn>
-                                            <v-btn v-else dark color="green darken-3"><v-icon left>done</v-icon> ASSIGNED</v-btn>                                  
+                                            <v-btn v-else round dark color="green darken-3"><v-icon left>done</v-icon> ASSIGNED</v-btn>                                  
                                         </td>
+                                        </tr>
                                     </template>
                                 </v-data-table>    
                             </v-card-text>                          
@@ -101,8 +103,14 @@ export default {
                 this.ticketData = tickets;
             }, 3000)
         },
-        assignTicket () {
-            
+        expandTicket (ticketId) {
+            let ticket = this.ticketData.filter((data) => data.id == ticketId)[0];
+            // ADDING TO THE LOCAL STORAGE TO USE IT ON ANOTHER PAGE. SAVING A REQUEST.
+            localStorage.setItem('t', JSON.stringify(ticket))
+            this.$router.push('/ticketdetail')
+        },
+        assignTicket (ticketId) {
+            console.log("Assigning the ticket", ticketId)
         }
     }
 }

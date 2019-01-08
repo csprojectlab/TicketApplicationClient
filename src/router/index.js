@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Authentication from '@/components/authenticate/Authentication'
 import Dashboard from '@/components/dashboard/Dashboard'
 import AddTicket from '@/components/ticket/AddTicket'
+import ViewTicket from '@/components/ticket/ViewTicket'
 import HelloWorld from '@/components/HelloWorld'
 import * as Auth from '@/components/authenticate'
 
@@ -31,7 +32,14 @@ const router = new Router({
     {
       path: '/addticket',
       name: 'AddTicket',
-      component: AddTicket
+      component: AddTicket,
+      meta: { requiredAuth: true }
+    },
+    {
+      path: '/viewticket',
+      name: 'ViewTicket',
+      component: ViewTicket,
+      meta: { requiredAuth: false}
     }
   ]
 })

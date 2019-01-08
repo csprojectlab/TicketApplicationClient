@@ -28,7 +28,7 @@
                             <v-card-text>
                                 <v-flex>
                                     <v-form>
-                                        <v-combobox label="priority"  :items="priorities" v-model="priority">
+                                        <v-combobox label="priority"  :items="priorities" v-model="priority" prepend-icon="label_important">
                                             <template slot="selection" slot-scope="data">
                                                 <v-chip :selected="data.selected" class="v-chip--select-multi " >                                       
                                                      <v-avatar class="accent white--text">                                                        
@@ -38,7 +38,7 @@
                                                  </v-chip>
                                              </template>
                                         </v-combobox>
-                                        <v-combobox label="type"  :items="types" v-model="type">
+                                        <v-combobox label="type"  :items="types" v-model="type" prepend-icon="label_important">
                                             <template slot="selection" slot-scope="data">
                                                 <v-chip :selected="data.selected" class="v-chip--select-multi " >                                       
                                                      <v-avatar class="accent white--text">                                                        
@@ -48,7 +48,7 @@
                                                  </v-chip>
                                              </template>
                                         </v-combobox>
-                                        <v-text-field outline clearable label="message" type="text" v-model="ticketMessage">
+                                        <v-text-field outline clearable label="message" type="text" v-model="ticketMessage" prepend-icon="message">
                                             <v-fade-transiton slot="append">
                                                 <v-progress-circular v-if="loading" size="24" color="info" indeterminate></v-progress-circular>
                                                 <img v-else width="24" height="24" src="./../../assets/logo.png" alt="">
@@ -60,8 +60,11 @@
                             <v-card-actions>                          
                               <v-layout justify-center>
                                   <v-flex>
+                                      <v-btn dark color="blue darken-3" @click="$router.push('/dashboard')">
+                                          <v-icon left>arrow_back</v-icon> Dashboard</v-btn>
                                       <v-btn dark color="blue darken-3" @click="submitTicket()">
-                                          <v-icon left>gavel</v-icon> Raise Ticket</v-btn>
+                                          <v-icon left>gavel</v-icon> Raise Ticket
+                                      </v-btn>
                                   </v-flex>
                               </v-layout>
                             </v-card-actions>
@@ -126,7 +129,7 @@ export default {
             type: '',
             ticketMessage: '',
             types: ["Software", "Hardware", "Stationary", "Account", "Payment", "Leave", "Installation", "Authorization", "Bottle Required",
-                    "Headphone", "PC Malfunction"],
+                    "Headphone", "PC Malfunction", "Cafeteria Food", "Bus Service", "Employee Complaint", "Finger-print"],
             priorities: ["Normal", "Immediate", "Urgent"],
             loading: true    // This is just for fun.
         }

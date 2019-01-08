@@ -30,7 +30,7 @@
                         <div>
                             <v-btn dark color="purple darken-3" @click="$router.push('/addticket')" v-if="!isAdmin">
                              <v-icon left>add_circle_outline</v-icon>Add Ticket</v-btn>
-                            <v-btn dark color="green darken-3" @click="$router.push('/')">
+                            <v-btn dark color="green darken-3" @click="$router.push('/viewticket')">
                                 <v-icon left>view_headline</v-icon> View Tickets</v-btn>
                         </div>
                     </v-flex>

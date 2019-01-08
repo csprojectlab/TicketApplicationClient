@@ -25,6 +25,7 @@ export default {
             context.$cookie.set('token', data.token, '1D')
             context.$cookie.set('user_id', data.user.id, '1D') 
             context.$cookie.set('user_name', data.user.username, '1D')
+            context.$cookie.set('user_email', data.user.email, '1D')
             this.user.authenticated = true;
             this.user.admin = data.user.admin
             context.showMessage("LOGIN SUCCESSFULL. REDIRECTING TO DASHBOARD.");
@@ -41,6 +42,7 @@ export default {
         context.$cookie.delete('token')
         context.$cookie.delete('user_id')
         context.$cookie.delete('user_name')
+        context.$cookie.delete('user_email')
         this.user.authenticated = false;
         this.user.admin = false;
         if(redirect) {

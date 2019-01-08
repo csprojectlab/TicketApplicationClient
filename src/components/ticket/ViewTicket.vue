@@ -7,7 +7,8 @@
             <v-tooltip bottom>
                 <v-btn slot="activator"
                       icon
-                      large                     
+                      large   
+                      @click="logout()"                  
                 >
                 <v-icon>logout</v-icon>
                 </v-btn>
@@ -26,47 +27,31 @@
                     </v-flex>
                 </v-layout>
                 <v-layout justify-center>
-                    <v-flex xs10>
-                        <v-card class="elevation-12">
-                            <v-toolbar dark color="green darken-3">
-                                <v-toolbar-title><strong><h3 class="display-1">TICKET DATABASE</h3></strong></v-toolbar-title>
-                                <v-spacer></v-spacer>
-                                <img width="50" height="50" src="./../../assets/ticket.png" alt="">
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-data-table class="elevation-5" :loading="false" :headers="headers" :items="ticketData">
-                                    <template slot="no-data">
-                                        <v-alert :value="true" color="error" icon="warning">NO TICKETS RAISED BY NOW</v-alert>
-                                    </template>
-                                    <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
-                                    <template slot="items" slot-scope="props">
-                                        <td class="text-xs-left">{{ props.item.ticketId }}</td>
-                                        <td class="text-xs-left">
-                                            <v-chip :selected="props.item.type" class="v-chip--select-multi ">
-                                                <v-avatar class="accent white--text">
-                                                    {{ props.item.type.slice(0, 1).toUpperCase() }}
-                                                </v-avatar>
-                                                {{ props.item.type }}
-                                            </v-chip>
-                                        </td>
-                                        <td class="text-xs-left">{{ props.item.priority }}</td>
-                                        <td class="text-xs-left">{{ props.item.status }}</td>
-                                        <td class="text-xs-left">{{ props.item.message }}</td>
-                                        <td class="text-xs-left">{{ props.item.ownedBy }}</td>
-                                        <td class="text-xs-left"><v-btn>Own</v-btn></td>
-                                    </template>
-                                </v-data-table>    
-                            </v-card-text>                          
-                        </v-card>    
-                    </v-flex>    
+                    <v-flex xs3 pl-2>
+                        <user-detail></user-detail>
+                    </v-flex>
+                    <v-flex xs9 pl-2 pr-2>
+                        <ticket-table></ticket-table>     <br>                       
+                        <v-btn dark color="purple" @click="$router.push('/dashboard')"><v-icon left>arrow_back</v-icon> Dashboard</v-btn>    
+                    </v-flex>                   
                 </v-layout>           
         </v-content>
+        <v-snackbar bottom color="error" v-model="snackbar">{{message}}</v-snackbar>
     </v-app>
 </template>
 <script>
+import TicketTable from '@/components/ticket/TicketTable'
+import UserDetail from '@/components/ticket/UserDetail'
+import Authentication from '@/components/authenticate'
+import * as Auth from '@/components/authenticate'
 export default {
+    components: {
+        'ticket-table': TicketTable, 'user-detail': UserDetail
+    },
     data () {
         return {
+            snackbar: false,
+            message: '',
             headers: [{ text: 'TicketId', value: 'ticketId'}, 
                       {text: "Type", sortable: false, value: 'type'}, 
                       { text: "Priority", sortable: false, value: 'priority'}, 
@@ -75,9 +60,19 @@ export default {
                       { text: "OwnedBy", sortable: false, value: 'ownedBy'}, 
                       { text: 'Own', sortable: false}
                       ],
-            ticketData: [{ ticketId: 14, type: 'Hardware', priority: 'Urgent', status: 'unassigned', message: 'Do it fast', ownedBy: '-'}]
+            
 
         }
+    },
+    methods: {
+        logout: function () {
+             Authentication.logout (this, '/login');
+        },
+        showMessage: function (message) {
+            this.snackbar = true;
+            this.message = message;
+        }
+       
     }
     
 }

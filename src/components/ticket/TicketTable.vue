@@ -14,12 +14,7 @@
                                     <template slot="items" slot-scope="props">
                                         <tr>
                                         <td class="text-xs-left"  @click="expandTicket(props.item.id)">
-                                            <v-chip :selected="props.item.id" class="v-chip--select-multi ">
-                                                <v-avatar class="accent white--text">
-                                                    {{ props.item.id.toString().slice(0, 1).toUpperCase() }}
-                                                </v-avatar>
-                                                {{ props.item.id }}
-                                            </v-chip>
+                                           {{ props.item.id }}
                                         </td>
                                         <td class="text-xs-left"  @click="expandTicket(props.item.id)">
                                             <v-chip :selected="props.item.type" class="v-chip--select-multi ">
@@ -55,8 +50,10 @@
                                         </tr>
                                     </template>
                                 </v-data-table>    
-                            </v-card-text>                          
+                            </v-card-text>        
+                            <v-snackbar bottom color="error" v-model="snackbar">{{message}}</v-snackbar>                  
                         </v-card>
+                        
 </template>
 <script>
 import * as Auth from '@/components/authenticate'
@@ -68,6 +65,7 @@ export default {
     },
    data () {
         return {   
+            snackbar: true,
             isAdmin: false,      
             loading: true,  
             snackbar: false,
@@ -101,7 +99,7 @@ export default {
             setTimeout(() => {
                 this.loading = false;
                 this.ticketData = tickets;
-            }, 3000)
+            }, 1500)
         },
         expandTicket (ticketId) {
             let ticket = this.ticketData.filter((data) => data.id == ticketId)[0];
@@ -109,8 +107,15 @@ export default {
             localStorage.setItem('t', JSON.stringify(ticket))
             this.$router.push('/ticketdetail')
         },
-        assignTicket (ticketId) {
-            console.log("Assigning the ticket", ticketId)
+        async assignTicket (ticketId) {            
+            let auth_headers = { 'Authorization': Authentication.authenticationHeader(this)}            
+            await TicketApi.assignTicket ({ ticketId: ticketId, ownedBy: this.$cookie.get('user_name')}, auth_headers);
+            this.showMessage (`#TICKET:${ticketId} successfully assigned.`);
+            this.ticketData.forEach((ticket) => {
+                if(ticket.id == ticketId) {
+                    ticket.status = 'ASSIGNED'; ticket.ownedBy = this.$cookie.get('user_name')
+                }
+            })
         }
     }
 }

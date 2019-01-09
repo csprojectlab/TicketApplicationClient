@@ -1,5 +1,8 @@
 import Add_Ticket_Api from '@/api/addTicketApi'
 import Get_Ticket_Api from '@/api/getTicketApi'
+import Get_Comment_Api from '@/api/getCommentApi'
+import Add_Comment_Api from '@/api/addCommentApi'
+import Assign_Ticket_Api from '@/api/assignTicketApi'
 
 export default {
     /**
@@ -31,6 +34,39 @@ export default {
             return tickets;
         } catch (error) {
             context.showMessage ("ERROR FETCHING THE TICKETS FROM THE DATABASE.");
+            return null;
+        }
+    },
+    /**
+     * GET THE COMMENTS OF A TICKET.
+     */
+    async getComments (ticketId, headers) {        
+        try {
+            const {data} = await Get_Comment_Api.getComments (ticketId, headers);
+            return data;
+        } catch (error) {
+            return null;
+        }
+    },
+    /**
+     * ADD A NEW COMMENT TO THE TICKET.
+     */
+    async addComment (commentData, headers) {
+        try {
+            const {data} = await Add_Comment_Api.addComment (commentData, headers);
+            return data;
+        } catch (error) {
+            return null;
+        }
+    },
+    /**
+     * ASSIGNING THE TICKET TO A OWNER.
+     */
+    async assignTicket (assignData, headers) {       
+        try {
+            const {data} = await Assign_Ticket_Api.assignTicket (assignData, headers);
+            return data;
+        } catch (error) {
             return null;
         }
     }
